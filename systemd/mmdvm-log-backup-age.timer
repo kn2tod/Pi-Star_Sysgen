@@ -1,0 +1,12 @@
+[Unit]
+Description=Age MMDVM log file backups every 6 hours
+ 
+[Timer]
+OnStartupSec=10s
+OnUnitActiveSec=6hr
+#OnCalendar=*-*-* *:00/30
+Persistent=true
+ 
+[Install]
+WantedBy=timers.target
+

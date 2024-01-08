@@ -1,0 +1,16 @@
+[Unit]
+Description=Backup MMDVM log files
+After=mmdvmhost.service
+ 
+StartLimitBurst=3
+ 
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/pistar-mmdvm-log-backup-age
+ 
+Restart=on-failure
+RestartSec=5s
+ 
+[Install]
+WantedBy=multi-user.target
+ 

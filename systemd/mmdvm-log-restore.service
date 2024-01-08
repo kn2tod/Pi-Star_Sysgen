@@ -1,0 +1,13 @@
+[Unit]
+Description=Restore MMDVM log files at startup
+#after=default.target
+Before=mmdvmhost.service
+ 
+[Service]
+Type=simple
+ExecStart=/usr/local/sbin/pistar-mmdvm-log-restores -r
+TimeoutStartSec=0
+ 
+[Install]
+WantedBy=default.target
+ 
