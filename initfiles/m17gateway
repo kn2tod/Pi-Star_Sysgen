@@ -1,0 +1,57 @@
+[Remote Commands]
+Port=6076
+Enable=0
+
+[General]
+RptAddress=127.0.0.1
+RptPort=17011
+LocalPort=17010
+Debug=0
+Daemon=1
+Suffix=H
+Callsign=M1ABC
+
+[Info]
+Power=1
+Height=0
+Latitude=50.00
+Longitude=-3.00
+Description=M17 Audio
+URL=http://www.mw0mwz.co.uk/pi-star/
+RXFrequency=448960000  *
+TXFrequency=448980000  *
+
+[Network]
+HostsFile1=/usr/local/etc/M17Hosts.txt
+HostsFile2=/root/M17Hosts.txt
+Port=17000
+ReloadTime=0
+HangTime=240
+Revert=1
+Debug=0
+RFHangTime=0
+NetHangTime=0
+
+[APRS]
+Enable=0
+Address=127.0.0.1
+Port=8673
+Description=APRS for M17Gateway
+Suffix=M
+
+[Log]
+DisplayLevel=0
+FileLevel=2
+FilePath=/var/log/pi-star
+FileRoot=M17Gateway
+
+[Voice]
+Enabled=0
+Language=en_US
+Directory=/usr/local/etc/M17_Audio
+
+[GPSD]
+Enable=0
+Port=2947
+Address=127.0.0.1
+
