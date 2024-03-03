@@ -3,7 +3,7 @@ Description=Pi-Star HostAPD Service
 After=syslog.target network.target
 
 [Service]
-Type=notify
+Type=forking
 RemainAfterExit=yes
 ExecStart=/usr/local/sbin/pistar-ap.service start
 ExecStop=/usr/local/sbin/pistar-ap.service stop
