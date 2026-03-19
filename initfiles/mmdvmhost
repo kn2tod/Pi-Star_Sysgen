@@ -210,12 +210,30 @@ DisplayClock=1
 UTC=0
 
 [Nextion]
-Port=/dev/ttyAMA0
+Port=/dev/ttyNextionDriver
 Brightness=50
 DisplayClock=1
 UTC=0
 ScreenLayout=0
 IdleBrightness=20
+
+[NextionDriver]
+Port=modem
+DataFilesPath=/usr/local/etc/
+LogLevel=2
+GroupsFile=groups.txt
+DMRidFile=stripped.csv
+#DMRidDelimiter=,
+#DMRidId=1
+#DMRidCall=2
+#DMRidName=3
+#DMRidX1=4
+#DMRidX2=5
+#DMRidX3=7
+ShowModeStatus=0
+RemoveDim=0
+WaitForLan=1
+SleepWhenInactive=0
 
 [OLED]
 Type=3
