@@ -1,0 +1,113 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+sudo systemctl daemon-reload
+
+# Fix device assignment: (ref: <https://forum.pistar.uk/viewtopic.php?p=24390&hilit=dialout&sid=71e9ae56606e558f725606457abf2546#p24390>
+#sudo rm                 /dev/ttyAMA0             2>/dev/null
+#sudo mknod              /dev/ttyAMA0 c 204 64
+#sudo chown root:dialout /dev/ttyAMA0
+#sudo chmod 660          /dev/ttyAMA0
+
+# AutoGenerate SSH keys if they are missing
+if [ ! -f /etc/ssh/ssh_host_rsa_key ] || [ ! -f /etc/ssh/ssh_host_dsa_key ]; then
+        mount -o remount,rw / 2>/dev/null
+        dpkg-reconfigure openssh-server
+fi
+
+# If this is a new image, expand the filesystem
+if grep -q firstboot /proc/cmdline; then
+    if [ -f /boot/firmware/cmdline.txt ]; then
+        mount -o remount,rw /boot/firmware 2>/dev/null
+        sed -i 's/ firstboot//' /boot/firmware/cmdline.txt
+    fi
+fi
+
+# Check if Pi5/Bookworm boot structure
+if [ -f /boot/firmware/Pi-Star_Config_*.zip ]; then
+    mount -o remount,rw /boot/firmware 2>/dev/null
+    mount -o remount,rw / 2>/dev/null
+    mv /boot/firmware/Pi-Star_Config_*.zip /boot
+fi
+
+# Pull in the Config settings from /boot/firmware if they exist there
+if [ -f /boot/Pi-Star_Config_*.zip ]; then
+    /usr/local/sbin/pistar-bootconfig.sh
+    exit 0
+fi
+
+# Check if Pi5/Bookworm boot structure
+if [ -f /boot/firmware/wpa_supplicant.conf ]; then
+    mount -o remount,rw /boot/firmware 2>/dev/null
+    mount -o remount,rw / 2>/dev/null
+    mv /boot/firmware/wpa_supplicant.conf /boot
+fi
+
+# Pull in the WiFi settings from /boot/firmware if they exist there
+if [ -f /boot/wpa_supplicant.conf ]; then
+    mount -o remount,rw /boot/firmware 2>/dev/null
+    mount -o remount,rw / 2>/dev/null
+    mv /boot/firmware/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+    wpa_cli reconfigure wlan0
+    reboot
+    exit 0
+fi
+
+# Fix Unatended upgrades
+if [ ! -d /var/log/unattended-upgrades ]; then
+    mkdir -p /var/log/unattended-upgrades
+fi
+
+if [ ! -d /var/log/pi-star ]; then
+    mkdir -p /var/log/pi-star
+    chown root:mmdvm /var/log/pi-star
+    chmod 775 /var/log/pi-star
+fi
+
+# Update the Kernel version in /etc/pistar-release
+_KernelVer=$(uname -r)
+_MMDVMHostVer=$(/usr/local/bin/MMDVMHost -v | awk '{ print $3 }')
+mount -o remount,rw / 2>/dev/null
+sed -i "s/kernel.*/kernel = $_KernelVer/" /etc/pistar-release
+sed -i "s/MMDVMHost.*/MMDVMHost = $_MMDVMHostVer/" /etc/pistar-release
+
+# Generate /etc/motd
+/usr/local/sbin/pistar-motdgen
+
+sudo rfkill unblock wlan 2>/dev/null
+
+# Disable WiFi Power Management
+if ifconfig wlan0 >/dev/null 2>&1; then
+    /sbin/iwconfig wlan0 power off
+fi
+
+# Remove RFKill
+if [ -f /etc/modprobe.d/rfkill_default.conf ]; then
+    rm -rf /etc/modprobe.d/rfkill_default.conf
+    rfkill unblock wifi
+fi
+
+# Shuffle the time for the daily crontab jobs
+cronMins=$(shuf -n 1 -e $(seq 2 14) $(seq 20 55))
+cronHours=$(shuf -i 3-4 -n1)
+mount -o remount,rw / 2>/dev/null
+sed -i "/cron.daily/c ${cronMins} ${cronHours}  * * *   root    mount -o remount,rw / && cd / && run-parts --report /etc/cron.daily" /etc/crontab
+sync
+sync
+sync
+mount -o remount,ro / 2>/dev/null
+
+# Reset the GPIO Pins on Pi4 Only
+/usr/local/sbin/pistar-mmdvmhshatreset boot
+
+exit 0
