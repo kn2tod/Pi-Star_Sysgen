@@ -70,7 +70,8 @@ Protocol=uart
 UARTPort=/dev/ttyAMA0
 
 [Transparent Data]
-Enable=0
+Enable=1
+SendFrameType=1
 RemoteAddress=127.0.0.1
 RemotePort=40094
 LocalPort=40095
