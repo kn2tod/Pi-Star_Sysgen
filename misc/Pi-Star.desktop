@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Pi-Star+
+Exec=firefox localhost
+StartupNotify=false
+Terminal=false
+Icon=file
+Categories=Applications
+Comment=invoke Pi-Star+ main dashboard
