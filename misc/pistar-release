@@ -1,0 +1,8 @@
+[Pi-Star]
+Pi-Star_Build_Date = dd-mmm-yyyy
+Version = 4.4.4
+ircddbgateway = 20181222
+dstarrepeater = 20181222
+MMDVMHost = 20181222
+kernel = unknown
+Hardware = RPi
