@@ -1,0 +1,21 @@
+[1;31m
+      ██████  ██      ██████ ████████  █████  ██████        
+      ██   ██ ██      ██        ██    ██   ██ ██   ██   ██  
+      ██████  ██ ████ ██████    ██    ███████ ██████  ██████
+      ██      ██          ██    ██    ██   ██ ██   ██   ██  
+      ██      ██      ██████    ██    ██   ██ ██   ██       
+
+[0;31mWelcome to Pi-Star, helping making DV simple since 2014!
+Build by Andy Taylor (MW0MWZ); modified by Mark Prichard (KN2TOD)
+
+[0;0mTo setup Pi-Star for the first time, make sure it is connected
+to your network by cable, or connect to the "Pi-Star-Setup" Access
+Point from your computer/phone/tablet.
+
+The Pi-Star Dashboard can be found at one of the following locations:
+[1;37m http://\n     //\n.local     //\4
+
+[0;0mIf you have a Raspberry Pi with on-board WiFi, you can connect
+to either the \n or Pi-Star-Setup access point,
+[1;37mhttp://192.168.50.1/[0;0m will always find your Pi-Star.
+[0;0m
