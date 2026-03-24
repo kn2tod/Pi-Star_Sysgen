@@ -16,7 +16,7 @@ sudo systemctl daemon-reload
 session="$XDG_SESSION_TYPE"
 # init firewall for desktop systems:
 if [ "$session" != "tty" ]; then
-  sudo /usr/local/sbin/pistar-firewall
+  sudo /usr/local/sbin/pistar-firewall > /dev/null
 fi
 
 # Fix device assignment: (ref: <https://forum.pistar.uk/viewtopic.php?p=24390&hilit=dialout&sid=71e9ae56606e558f725606457abf2546#p24390>
@@ -66,7 +66,7 @@ if [ -f /boot/wpa_supplicant.conf ]; then
     mount -o remount,rw / 2>/dev/null
     mv /boot/firmware/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
     wpa_cli reconfigure wlan0
-    if [ "$session = "tty" ]; then
+    if [ "$session" = "tty" ]; then
         reboot
         exit 0
     fi
@@ -87,8 +87,8 @@ fi
 _KernelVer=$(uname -r)
 _MMDVMHostVer=$(/usr/local/bin/MMDVMHost -v | awk '{ print $3 }')
 mount -o remount,rw / 2>/dev/null
-sed -i "s/kernel.*/kernel = $_KernelVer/" /etc/pistar-release
-sed -i "s/MMDVMHost.*/MMDVMHost = $_MMDVMHostVer/" /etc/pistar-release
+sed -i "s/kernel.*/kernel = $_KernelVer/g"          /etc/pistar-release
+sed -i "s/MMDVMHost.*/MMDVMHost = $_MMDVMHostVer/g" /etc/pistar-release
 
 # Generate /etc/motd
 /usr/local/sbin/pistar-motdgen
