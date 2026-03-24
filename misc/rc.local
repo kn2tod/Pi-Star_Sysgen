@@ -9,9 +9,15 @@
 # In order to enable or disable this script just change the execution
 # bits.
 #
-# By default this script does nothing.
+# Customized for a pi-star system.
 
 sudo systemctl daemon-reload
+
+session="$XDG_SESSION_TYPE"
+# init firewall for desktop systems:
+if [ "$session" != "tty" ]; then
+  sudo /usr/local/sbin/pistar-firewall
+fi
 
 # Fix device assignment: (ref: <https://forum.pistar.uk/viewtopic.php?p=24390&hilit=dialout&sid=71e9ae56606e558f725606457abf2546#p24390>
 #sudo rm                 /dev/ttyAMA0             2>/dev/null
@@ -20,7 +26,8 @@ sudo systemctl daemon-reload
 #sudo chmod 660          /dev/ttyAMA0
 
 # AutoGenerate SSH keys if they are missing
-if [ ! -f /etc/ssh/ssh_host_rsa_key ] || [ ! -f /etc/ssh/ssh_host_dsa_key ]; then
+#if [ ! -f /etc/ssh/ssh_host_rsa_key ] || [ ! -f /etc/ssh/ssh_host_dsa_key ]; then  # dsa-keys deprecated
+if [ ! -f /etc/ssh/ssh_host_rsa_key ]; then
         mount -o remount,rw / 2>/dev/null
         dpkg-reconfigure openssh-server
 fi
@@ -59,8 +66,10 @@ if [ -f /boot/wpa_supplicant.conf ]; then
     mount -o remount,rw / 2>/dev/null
     mv /boot/firmware/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
     wpa_cli reconfigure wlan0
-    reboot
-    exit 0
+    if [ "$session = "tty" ]; then
+        reboot
+        exit 0
+    fi
 fi
 
 # Fix Unatended upgrades
@@ -105,9 +114,13 @@ sed -i "/cron.daily/c ${cronMins} ${cronHours}  * * *   root    mount -o remount
 sync
 sync
 sync
-mount -o remount,ro / 2>/dev/null
 
 # Reset the GPIO Pins on Pi4 Only
 /usr/local/sbin/pistar-mmdvmhshatreset boot
+
+ro=$(grep -ihosw -m 1 ro {/boot,/boot/firmware}/cmdline.txt | tail -n 1)
+if [ "$ro" ]; then
+  mount -o remount,ro / 2>/dev/null
+fi
 
 exit 0
