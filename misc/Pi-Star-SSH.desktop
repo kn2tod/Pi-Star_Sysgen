@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Pi-Star+ SSH
+Exec=lxterminal -l --geometry=140X80 -t Pi-Star
+StartupNotify=false
+Terminal=false
+Icon=file
+Categories=Applications
+Comment=invoke Pi-Star+ SSH interface
