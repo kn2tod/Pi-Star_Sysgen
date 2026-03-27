@@ -20,10 +20,10 @@ if [ "$session" != "tty" ]; then
 fi
 
 # Fix device assignment: (ref: <https://forum.pistar.uk/viewtopic.php?p=24390&hilit=dialout&sid=71e9ae56606e558f725606457abf2546#p24390>
-#sudo rm                 /dev/ttyAMA0             2>/dev/null
-#sudo mknod              /dev/ttyAMA0 c 204 64
-#sudo chown root:dialout /dev/ttyAMA0
-#sudo chmod 660          /dev/ttyAMA0
+sudo rm                 /dev/ttyAMA0             2>/dev/null
+sudo mknod              /dev/ttyAMA0 c 204 64
+sudo chown root:dialout /dev/ttyAMA0
+sudo chmod 660          /dev/ttyAMA0
 
 # AutoGenerate SSH keys if they are missing
 #if [ ! -f /etc/ssh/ssh_host_rsa_key ] || [ ! -f /etc/ssh/ssh_host_dsa_key ]; then  # dsa-keys deprecated
