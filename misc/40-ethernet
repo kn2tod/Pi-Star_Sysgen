@@ -1,0 +1,11 @@
+# Log wired interface activites.
+#
+
+if [ "$ifwireless" = "0" ]; then
+        syslog info "ETHERNET: --> $reason $interface $ifcarrier"
+#        if [ "$reason" = "BOUND" ]; then
+#                syslog info "ETHERNET: wlan0 down"
+#                eval "sudo ifconfig wlan0 down"
+#                eval "sudo ifconfig wlan0_ap down"
+#        fi
+fi
