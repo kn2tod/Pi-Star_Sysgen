@@ -1,0 +1,5 @@
+[Modem]
+Hardware=mmdvmhsdualhatgpio
+
+[BrandMeister]
+Password="passw0rd"
