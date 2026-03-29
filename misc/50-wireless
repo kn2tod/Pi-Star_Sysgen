@@ -1,0 +1,5 @@
+# Log wireless interface activites.
+#
+if [ "$ifwireless" = "1" ]; then
+        syslog info "WIRELESS: --> $reason $interface $ifcarrier"
+fi
