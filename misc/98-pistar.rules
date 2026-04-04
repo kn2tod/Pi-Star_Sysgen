@@ -1,0 +1,2 @@
+# Pi-Star: lock in serial port assigned to MMDVM hat:
+KERNEL=="ttyAMA0",SYMLINK+="serial",GROUP:="dialout",MODE="0666"
