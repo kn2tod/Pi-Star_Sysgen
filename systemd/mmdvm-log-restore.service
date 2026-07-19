@@ -5,6 +5,7 @@ Before=mmdvmhost.service
  
 [Service]
 Type=simple
+ExecCondition=/bin/sh -c 'test -x /usr/local/sbin/pistar-mmdvm-log-restores'
 ExecStart=/usr/local/sbin/pistar-mmdvm-log-restores -r
 TimeoutStartSec=0
  
