@@ -2,6 +2,7 @@
 Description=Backup MMDVM log files every 10 mins
  
 [Timer]
+ExecCondition=/bin/sh -c 'test -x /usr/local/sbin/pistar-mmdvm-log-backup'
 OnCalendar=*-*-* *:00/10
 Persistent=true
  
