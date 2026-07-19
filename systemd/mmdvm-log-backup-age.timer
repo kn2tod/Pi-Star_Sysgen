@@ -2,6 +2,7 @@
 Description=Age MMDVM log file backups every 6 hours
  
 [Timer]
+ExecCondition=/bin/sh -c 'test -x /usr/local/sbin/pistar-mmdvm-log-backup-age'
 OnStartupSec=10s
 OnUnitActiveSec=6hr
 #OnCalendar=*-*-* *:00/30
@@ -9,4 +10,3 @@ Persistent=true
  
 [Install]
 WantedBy=timers.target
-
