@@ -5,6 +5,7 @@ Before=shutdown.target
  
 [Service]
 Type=simple
+ExecCondition=/bin/sh -c 'test -x /usr/local/sbin/pistar-mmdvm-log-backups'
 ExecStart=/usr/local/sbin/pistar-mmdvm-log-backups -r
 TimeoutStartSec=3
  
