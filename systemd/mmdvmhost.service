@@ -3,7 +3,7 @@ Description=MMDVMHost Radio Servce
 After=syslog.target network.target
 
 [Service]
-Type=forking
+Type=simple
 ExecStart=/usr/local/sbin/mmdvmhost.service start
 ExecStop=/usr/local/sbin/mmdvmhost.service stop
 ExecReload=/usr/local/sbin/mmdvmhost.service restart
